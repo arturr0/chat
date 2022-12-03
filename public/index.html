@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<!--
+   Created using JS Bin
+   http://jsbin.com
+   
+   Copyright (c) 2022 by anonymous (http://jsbin.com/zavegobivi/1/edit)
+   
+   Released under the MIT license: http://jsbin.mit-license.org
+   -->
+<meta name="robots" content="noindex">
+<script src="jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js"></script>
+<html>
+   <head>
+      
+      
+      <meta name="viewport" content="width=device-width">
+      <link rel="stylesheet" href="css/fontello.css">
+      <link rel="stylesheet" href="style.css">
+      <link rel="icon" href="data:,">
+      <title>JS Bin</title>
+      <link rel="shortcut icon" type="image/png" href="icon.png">
+      <style id="jsbin-css">
+         textarea[autoresize] {
+         display: block;
+         overflow: hidden;
+         resize: none;
+         border-bottom-left-radius: 10px;
+         border-bottom-right-radius: 10px;
+         }
+      </style>
+   </head>
+   <body>
+      <div id="wraper">
+         <div id="menuWraper">
+            <div class="option">
+               <div class="dropdown">
+                  <button onclick="myFunction('groups')" id="groupBtn" class="dropbtn icon-users"></button>
+                  <div id="groups" class="dropdown-content" style="left:0"><span id="makeGroup">CREATE GROUP</span>
+                  </div>
+               </div>
+               <div class="dropdown">
+                  <button onclick="myFunction('menu')" class="dropbtn icon-cog"></button>
+                  <div id="menu" class="dropdown-content">
+                     <span>TEST2</span>
+                  </div>
+               </div>
+            </div>
+            <div class="dropdown">
+               <button onclick="myFunction('messanger')" id="messBtn" class="dropbtn icon-mail"></button>
+               <div id="messanger" class="dropdown-content">
+                  
+               </div>
+            </div>
+         </div>
+         <div id="content">
+            <div id="friends">
+               
+               <div id="friendsWindow">
+                
+                 
+               </div>
+               
+            </div>
+            <div id="page">
+               <div id="receiver"><i class="icon-chat-empty"></i><div id="receiverSender"></div></div>
+               <div id="chatList">
+                  
+               </div>
+               <div id="keyboard"><i class="icon-keyboard"></i></div>
+               <textarea id="text" autoresize style="max-width:100vw;min-height:80px">Type here and I’ll resize.</textarea>
+            </div>
+            <div id="users">
+               
+                <div id="clientWrapper">
+                 <div id="clients"></div>
+                 
+                </div>
+               
+            </div>
+         </div>
+         <div id="windowsContent">
+           <div id="window">
+            <div id="message">MESSAGE
+            </div>
+              <div id="buttons">
+                <button id="yes" class="message" onclick="hideMessage(); confirmInv(confParam);">YES</button>
+                <button id="no" class="message" onclick="hideMessage()">NO</button>
+              </div>
+           </div>
+           <div id="windowGroup">
+            <div id="groupName">
+               <div>NAME</div>
+               <input type="text" id="grName">
+               
+            </div>
+            <div id="group">
+            </div>
+              <div id="buttonsGroup">
+                <button id="createGroup" class="groupButtons">CREATE GROUP</button>
+                <button id="cancel" class="groupButtons">CANCEL</button>
+              </div>
+           </div>
+         </div>
+      </div>
+      
+      <div id="passwordPage">
+         <div id="password">
+            <h1 id="heading1">Login Here</h1>
+            <img src="https://img.icons8.com/cute-clipart/344/login-rounded-right.png" alt="Login Logo" style="width:100px; height:100px;">
+            <div>
+               <div class="myForm" name="myForm">
+                  <div class="input-container">
+                     <!--<i class="fa fa-envelope icon"></i>-->
+                     <input placeholder="Email" class="input-field">
+                  </div>
+                  <div class="input-container">
+                     <!--<i class="fa fa-key icon"></i>-->
+                     <input placeholder="Password" id="passwordPlace" class="input-field"  required>
+                  </div>
+                  <div><button class="bttn" onclick="hidePassword()">SEND PASSWORD</button></div>
+                  <div><button class="bttn" onclick="showAcc()">CREATE ACCOUNT</button></div>
+                </div>
+            </div>
+         </div>
+      </div>
+      <div id="accPage">
+        <div id="account">
+    
+          <div>
+              
+                  <div class="input-container">
+                      <!--<i class="fa fa-envelope icon">-->
+                      <input placeholder="Email" class="input-field" id="accPlace" required>
+                  </div>
+                  
+                 <div><button class="bttn" onclick="setAcc()">SET ACCOUNT</button></div>
+                 <div><button class="bttn" onclick="cancelAcc()">CANCEL</button></div>
+              
+          </div>
+        </div>
+      </div>
+      <script>
+
+        let account;
+         function hidePassword(){
+           let password = document.getElementById("passwordPlace").value;
+           socket.emit('password', password );
+           //socket.emit('updateUsersReq', ACCOUNT);
+           console.log(password);
+         
+         }
+
+         function showAcc(){
+
+
+          document.getElementById("passwordPage").style.display = "none";
+          document.getElementById("wraper").style.display = "none";
+          document.getElementById("account").style.display = "flex";
+          document.getElementById("accPage").style.display = "flex";
+          
+
+         }
+
+         function cancelAcc(){
+
+          document.getElementById("account").style.display = "none";
+          document.getElementById("accPage").style.display = "none";
+          document.getElementById("passwordPage").style.display = "inline";
+
+         }
+         function setAcc(){
+
+          account = document.getElementById("accPlace").value;
+          socket.emit('newAcc', account );
+         }
+
+         $('textarea').on('input', function() {
+         $(this).outerHeight(38).outerHeight(this.scrollHeight);
+         if (typeof singleReceiver !== 'undefined') scroll();
+         });
+         
+         
+      </script>
+      <script src="app.js"></script>
+   </body>
+</html>
